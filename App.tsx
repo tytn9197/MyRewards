@@ -5,12 +5,14 @@
  * @format
  */
 
+import { store } from '@/store/store';
 import { Platform, StatusBar, StyleSheet, Text, useColorScheme, useWindowDimensions, View } from 'react-native';
 import {
   SafeAreaProvider,
   useSafeAreaInsets,
   initialWindowMetrics,
 } from 'react-native-safe-area-context';
+import { Provider } from 'react-redux';
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
@@ -31,9 +33,11 @@ function AppContent() {
 
   return (
     <SafeAreaProvider initialMetrics={initialWindowMetrics}>
-      <View style={[styles.container, !isPortrait && Platform.OS === "ios"? { paddingLeft: left, paddingRight: right }: { paddingTop: top, paddingBottom: bottom }]}>
-        <Text>Hello World</Text>
-      </View>
+      <Provider store={store}>
+        <View style={[styles.container, !isPortrait && Platform.OS === "ios"? { paddingLeft: left, paddingRight: right }: { paddingTop: top, paddingBottom: bottom }]}>
+          <Text>Hello World</Text>
+        </View>
+      </Provider>
     </SafeAreaProvider>
   );
 }
