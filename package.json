@@ -11,10 +11,11 @@
     "test": "jest"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^2.11.2",
     "react": "19.2.3",
     "react-native": "0.83.1",
-    "@react-native/new-app-screen": "0.83.1",
-    "react-native-safe-area-context": "^5.5.2"
+    "react-native-safe-area-context": "^5.5.2",
+    "react-redux": "^9.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
