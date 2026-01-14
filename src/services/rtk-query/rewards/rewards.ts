@@ -7,14 +7,11 @@ import { RewardsRequest, RewardsResponse } from "./rewards.types"
 const rewardsExtended = RTKQuery.injectEndpoints({
   endpoints: (builder) => ({
     getListRewards: builder.query<RewardsResponse, RewardsRequest>({
+      keepUnusedDataFor: 3,
       query: ({page}) => ({
         url: `bounties/?limit=${APP_CONST.list_limit}&page=${page}`,
         method: "GET",
       }),
-      // Refetch when the page arg changes
-      forceRefetch({ currentArg }) {
-        return currentArg?.page === 1
-      },
     }),
   }),
   overrideExisting: true,
