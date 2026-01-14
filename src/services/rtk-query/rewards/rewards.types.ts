@@ -1,4 +1,5 @@
 export interface RewardsRequest {
+  page: number
 }
 
 export interface RewardsResponse {
