@@ -4,6 +4,7 @@ import {
   Reward,
   RewardsRequest,
 } from '@/services/rtk-query/rewards/rewards.types';
+import { collectReward } from '@/store/rewardsSlice';
 import { useAppDispatch, useAppSelector } from '@/store/store';
 import { FlashList } from '@shopify/flash-list';
 import { useState } from 'react';
@@ -11,12 +12,13 @@ import {
   ActivityIndicator,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const HomeScreen = () => {
-  const { rewards } = useAppSelector(state => state.rewards);
+  const { rewards, collectedRewards } = useAppSelector(state => state.rewards);
   const [request, setRequest] = useState<RewardsRequest>({ page: 1 });
   const { data, isLoading, isError, isFetching } =
     useGetListRewardsQuery(request);
@@ -28,7 +30,11 @@ const HomeScreen = () => {
   const { container } = styles;
 
   const handleEndReached = () => {
-    if (!!data && !!data?.next && data?.count > request.page * APP_CONST.list_limit) {
+    if (
+      !!data &&
+      !!data?.next &&
+      data?.count > request.page * APP_CONST.list_limit
+    ) {
       setRequest(prev => {
         return { page: prev.page + 1 };
       });
@@ -60,7 +66,14 @@ const HomeScreen = () => {
       <FlashList<Reward>
         data={rewards ?? []}
         renderItem={({ item }) => (
-          <Text style={{ backgroundColor: 'red' }}>{item.name}</Text>
+          <TouchableOpacity
+            onPress={() => {
+              dispatch(collectReward(item));
+            }}
+            disabled={!!collectedRewards[item.id]}
+          >
+            <Text style={{ backgroundColor: 'red' }}>{item.name}</Text>
+          </TouchableOpacity>
         )}
         ItemSeparatorComponent={() => <View style={{ height: 20 }} />}
         keyExtractor={item => {

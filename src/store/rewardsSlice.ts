@@ -3,10 +3,11 @@ import {
   Reward,
   RewardsResponse,
 } from '@/services/rtk-query/rewards/rewards.types';
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { RootState } from './store';
 
 interface RewardsState {
-  collectedRewards: Record<string, boolean | null | undefined>;
+  collectedRewards: Record<string, Reward>;
   rewards: RewardsResponse['results'];
 }
 
@@ -20,10 +21,10 @@ export const rewardsSlice = createSlice({
   initialState,
   reducers: {
     collectReward: (state, action: PayloadAction<Reward>) => {
-      state.collectedRewards[action.payload.id] = true;
+      state.collectedRewards[action.payload.id] = action.payload;
     },
     deleteReward: (state, action: PayloadAction<Reward>) => {
-      state.collectedRewards[action.payload.id] = null;
+      delete state.collectedRewards[action.payload.id];
     },
   },
   extraReducers: builder => {
@@ -43,3 +44,11 @@ export const rewardsSlice = createSlice({
 
 export const { collectReward, deleteReward } = rewardsSlice.actions;
 export default rewardsSlice.reducer;
+
+const selectCollectedRewards = (state: RootState) =>
+  state.rewards.collectedRewards;
+
+export const selectListCollectedRewards = createSelector(
+  [selectCollectedRewards],
+  collectedRewards => Object.values(collectedRewards),
+);
