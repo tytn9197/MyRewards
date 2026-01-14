@@ -64,7 +64,6 @@ const RootNavigator = (): React.JSX.Element => {
         options={{
           tabBarIcon: HomeScreenTabIcon,
           title: 'Home',
-          tabBarLabel: 'home',
         }}
       />
       <BottomTab.Screen
