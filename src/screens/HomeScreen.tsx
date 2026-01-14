@@ -1,3 +1,4 @@
+import { APP_CONST } from '@/constants/APP_CONST';
 import { useGetListRewardsQuery } from '@/services/rtk-query/rewards/rewards';
 import {
   Reward,
@@ -27,7 +28,7 @@ const HomeScreen = () => {
   const { container } = styles;
 
   const handleEndReached = () => {
-    if (!!data && !!data?.next) {
+    if (!!data && !!data?.next && data?.count > request.page * APP_CONST.list_limit) {
       setRequest(prev => {
         return { page: prev.page + 1 };
       });
