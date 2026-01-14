@@ -2,9 +2,11 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { setupListeners } from '@reduxjs/toolkit/query'
 import { RTKQuery } from "@/services/rtk-query/rtk-query";
+import { rewardsSlice } from "./rewardsSlice";
 
 
 const rootReducer = combineReducers({
+  rewards: rewardsSlice.reducer,
   // add other state here
   [RTKQuery.reducerPath]: RTKQuery.reducer // Add the generated reducer as a specific top-level slice
 });
