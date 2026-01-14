@@ -43,7 +43,7 @@ const CollectedRewardsTabIcon = ({
       width: size,
       height: size,
     }}
-    source={ICONS.home}
+    source={ICONS.gift}
   />
 );
 
