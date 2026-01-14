@@ -13,6 +13,7 @@ export const DEFAULT_API_CONFIG: ApiConfig = {
 // initialize an empty api service that we'll inject endpoints into later as needed
 export const RTKQuery = createApi({
   reducerPath: 'root-rtk-query',
+  keepUnusedDataFor: 30, 
   baseQuery: fetchBaseQuery({
     baseUrl: DEFAULT_API_CONFIG.url, timeout: DEFAULT_API_CONFIG.timeout,
   }),
