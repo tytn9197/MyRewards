@@ -7,6 +7,7 @@ import { FlashList, FlashListProps } from '@shopify/flash-list';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import RewardItem from './RewardItem';
+import { Activity } from 'react';
 
 export interface ListRewardsProps {
   /**
@@ -53,9 +54,9 @@ const ListRewards = (props: ListRewardsProps) => {
         refreshing={isFetching && request.page === 1}
         style={styles.listStyle}
       />
-      {isFetching && request.page !== 1 && (
+      <Activity mode={isFetching && request.page !== 1 ? 'visible' : 'hidden'}>
         <ActivityIndicator animating color={'red'} />
-      )}
+      </Activity>
     </View>
   );
 };
