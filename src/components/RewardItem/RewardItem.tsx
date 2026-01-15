@@ -2,7 +2,7 @@ import { Reward } from '@/services/rtk-query/rewards/rewards.types';
 import { collectReward } from '@/store/rewardsSlice';
 import { useAppDispatch } from '@/store/store';
 import { memo } from 'react';
-import { Text, TouchableOpacity } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import { styles } from './RewardItem.style';
 
 export interface RewardItemProps {
@@ -17,7 +17,7 @@ export interface RewardItemProps {
   /**
    * check whether this item is collected or not, to disable Collect button
    */
-  isCollected: boolean;
+  isCollected: boolean | undefined;
 }
 
 const RewardItem = ({ item, isCollected }: RewardItemProps) => {
@@ -28,9 +28,21 @@ const RewardItem = ({ item, isCollected }: RewardItemProps) => {
   };
 
   return (
-    <TouchableOpacity onPress={handleItemPress} disabled={!!isCollected}>
-      <Text style={[styles.name, isCollected && {backgroundColor: "yellow"}]}>{item.name}</Text>
-    </TouchableOpacity>
+    <View style={styles.container}>
+      <Text style={styles.name}>{item.name}</Text>
+      {!!item.description && (
+        <Text style={styles.description}>{item.description}</Text>
+      )}
+      {isCollected !== undefined && (
+        <TouchableOpacity
+          style={[styles.button, isCollected && styles.disableButton]}
+          onPress={handleItemPress}
+          disabled={!!isCollected}
+        >
+          <Text style={styles.collect}>COLLECT</Text>
+        </TouchableOpacity>
+      )}
+    </View>
   );
 };
 
@@ -38,7 +50,10 @@ const arePropsEqual = (
   prevProps: Readonly<RewardItemProps>,
   nextProps: Readonly<RewardItemProps>,
 ): boolean => {
-  return prevProps.item.id === nextProps.item.id && prevProps.isCollected === nextProps.isCollected
+  return (
+    prevProps.item.id === nextProps.item.id &&
+    prevProps.isCollected === nextProps.isCollected
+  );
 };
 
 export default memo(RewardItem, arePropsEqual);
