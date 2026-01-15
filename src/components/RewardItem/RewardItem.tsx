@@ -2,7 +2,8 @@ import { Reward } from '@/services/rtk-query/rewards/rewards.types';
 import { collectReward } from '@/store/rewardsSlice';
 import { useAppDispatch } from '@/store/store';
 import { memo } from 'react';
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { Text, TouchableOpacity } from 'react-native';
+import { styles } from './RewardItem.style';
 
 export interface RewardItemProps {
   /**
@@ -32,12 +33,6 @@ const RewardItem = ({ item, isCollected }: RewardItemProps) => {
     </TouchableOpacity>
   );
 };
-
-const styles = StyleSheet.create({
-  name: {
-    backgroundColor: 'red',
-  },
-});
 
 const arePropsEqual = (
   prevProps: Readonly<RewardItemProps>,

@@ -6,7 +6,7 @@ import { useAppSelector } from '@/store/store';
 import { FlashList, FlashListProps } from '@shopify/flash-list';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import RewardItem from './RewardItem';
+import RewardItem from './RewardItem/RewardItem';
 import { Activity, useCallback } from 'react';
 
 export interface ListRewardsProps {
