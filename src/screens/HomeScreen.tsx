@@ -1,34 +1,15 @@
 import Error from '@/components/Error';
+import ListRewards from '@/components/ListRewards';
+import Loading from '@/components/Loading';
 import { APP_CONST } from '@/constants/APP_CONST';
 import { useGetListRewardsQuery } from '@/services/rtk-query/rewards/rewards';
-import {
-  Reward,
-  RewardsRequest,
-} from '@/services/rtk-query/rewards/rewards.types';
-import { collectReward } from '@/store/rewardsSlice';
-import { useAppDispatch, useAppSelector } from '@/store/store';
-import { FlashList } from '@shopify/flash-list';
-import { useState } from 'react';
-import {
-  ActivityIndicator,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { RewardsRequest } from '@/services/rtk-query/rewards/rewards.types';
+import { Activity, useState } from 'react';
 
 const HomeScreen = () => {
-  const { rewards, collectedRewards } = useAppSelector(state => state.rewards);
   const [request, setRequest] = useState<RewardsRequest>({ page: 1 });
   const { data, isLoading, isError, isFetching } =
     useGetListRewardsQuery(request);
-
-  const { top } = useSafeAreaInsets();
-
-  const dispatch = useAppDispatch();
-
-  const { container } = styles;
 
   const handleEndReached = () => {
     if (
@@ -46,56 +27,24 @@ const HomeScreen = () => {
     setRequest({ page: 1 });
   };
 
-  if (isLoading) {
-    return (
-      <View style={[container, { paddingTop: top }]}>
-        <ActivityIndicator animating color={'red'} />
-      </View>
-    );
-  }
-
-  if (isError || !data) {
-    return (
-      <Error onPressReset={handleRefresh}/>
-    );
-  }
-
   return (
-    <View style={[container, { paddingTop: top }]}>
-      <FlashList<Reward>
-        data={rewards ?? []}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            onPress={() => {
-              dispatch(collectReward(item));
-            }}
-            disabled={!!collectedRewards[item.id]}
-          >
-            <Text style={{ backgroundColor: 'red' }}>{item.name}</Text>
-          </TouchableOpacity>
-        )}
-        ItemSeparatorComponent={() => <View style={{ height: 20 }} />}
-        keyExtractor={item => {
-          return item.id.toString();
-        }}
-        onEndReached={handleEndReached}
-        onEndReachedThreshold={0.5}
-        onRefresh={handleRefresh}
-        refreshing={isFetching && request.page === 1}
-        style={{ flex: 1 }}
-      />
-      {isFetching && request.page !== 1 && (
-        <ActivityIndicator animating color={'red'} />
-      )}
-    </View>
+    <>
+      <Activity mode={isLoading ? 'visible' : 'hidden'}>
+        <Loading />
+      </Activity>
+      <Activity mode={isError ? 'visible' : 'hidden'}>
+        <Error onPressReset={handleRefresh} />
+      </Activity>
+      <Activity mode={!!data && !isLoading ? 'visible' : 'hidden'}>
+        <ListRewards
+          request={request}
+          isFetching={isFetching}
+          onRefresh={handleRefresh}
+          onEndReached={handleEndReached}
+        />
+      </Activity>
+    </>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-    flexGrow: 1,
-  },
-});
 
 export default HomeScreen;
