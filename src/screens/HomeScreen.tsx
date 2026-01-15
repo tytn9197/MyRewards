@@ -1,3 +1,4 @@
+import Error from '@/components/Error';
 import { APP_CONST } from '@/constants/APP_CONST';
 import { useGetListRewardsQuery } from '@/services/rtk-query/rewards/rewards';
 import {
@@ -55,9 +56,7 @@ const HomeScreen = () => {
 
   if (isError || !data) {
     return (
-      <View style={[container, { paddingTop: top }]}>
-        <Text>ERROR</Text>;
-      </View>
+      <Error onPressReset={handleRefresh}/>
     );
   }
 
