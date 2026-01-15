@@ -1,0 +1,8 @@
+# flow: CollectReward
+# intent:
+# Open the app and ensure it launches successfully.
+appId: ${MAESTRO_APP_ID}
+onFlowStart:
+  - runFlow: ../shared/_OnFlowStart.yaml
+---
+- waitForAnimationToEnd
