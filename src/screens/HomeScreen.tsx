@@ -35,7 +35,7 @@ const HomeScreen = () => {
       <Activity mode={isError ? 'visible' : 'hidden'}>
         <Error onPressReset={handleRefresh} />
       </Activity>
-      <Activity mode={!!data && !isLoading ? 'visible' : 'hidden'}>
+      <Activity mode={!!data && !isLoading && !isError ? 'visible' : 'hidden'}>
         <ListRewards
           request={request}
           isFetching={isFetching}

@@ -2,17 +2,11 @@ import {
   Reward,
   RewardsRequest,
 } from '@/services/rtk-query/rewards/rewards.types';
-import { collectReward } from '@/store/rewardsSlice';
-import { useAppDispatch, useAppSelector } from '@/store/store';
+import { useAppSelector } from '@/store/store';
 import { FlashList, FlashListProps } from '@shopify/flash-list';
-import {
-  ActivityIndicator,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import RewardItem from './RewardItem';
 
 export interface ListRewardsProps {
   /**
@@ -39,32 +33,25 @@ export interface ListRewardsProps {
 
 const ListRewards = (props: ListRewardsProps) => {
   const { request, isFetching, onRefresh, onEndReached } = props;
-  const { rewards, collectedRewards } = useAppSelector(state => state.rewards);
+
+  const { rewards } = useAppSelector(state => state.rewards);
+
   const { top } = useSafeAreaInsets();
-  const dispatch = useAppDispatch();
+
+  const renderItemSeparator = () => <View style={styles.h20} />;
+
   return (
     <View style={[styles.container, { paddingTop: top }]}>
       <FlashList<Reward>
         data={rewards ?? []}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            onPress={() => {
-              dispatch(collectReward(item));
-            }}
-            disabled={!!collectedRewards[item.id]}
-          >
-            <Text style={{ backgroundColor: 'red' }}>{item.name}</Text>
-          </TouchableOpacity>
-        )}
-        ItemSeparatorComponent={() => <View style={{ height: 20 }} />}
-        keyExtractor={item => {
-          return item.id.toString();
-        }}
+        renderItem={({ item }) => <RewardItem item={item} />}
+        ItemSeparatorComponent={renderItemSeparator}
+        keyExtractor={item => item.id.toString()}
         onEndReached={onEndReached}
         onEndReachedThreshold={0.5}
         onRefresh={onRefresh}
         refreshing={isFetching && request.page === 1}
-        style={{ flex: 1 }}
+        style={styles.listStyle}
       />
       {isFetching && request.page !== 1 && (
         <ActivityIndicator animating color={'red'} />
@@ -77,6 +64,12 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     flexGrow: 1,
+  },
+  listStyle: {
+    flex: 1,
+  },
+  h20: {
+    height: 20,
   },
 });
 
