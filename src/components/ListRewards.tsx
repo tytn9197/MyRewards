@@ -7,7 +7,7 @@ import { FlashList, FlashListProps } from '@shopify/flash-list';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import RewardItem from './RewardItem';
-import { Activity } from 'react';
+import { Activity, useCallback } from 'react';
 
 export interface ListRewardsProps {
   /**
@@ -38,14 +38,24 @@ const ListRewards = (props: ListRewardsProps) => {
   const { rewards } = useAppSelector(state => state.rewards);
 
   const { top } = useSafeAreaInsets();
+  const { collectedRewards } = useAppSelector(state => state.rewards);
 
   const renderItemSeparator = () => <View style={styles.h20} />;
+
+  const checkCollected = useCallback(
+    (item: Reward): boolean => {
+      return !!collectedRewards[item.id];
+    },
+    [collectedRewards],
+  );
 
   return (
     <View style={[styles.container, { paddingTop: top }]}>
       <FlashList<Reward>
         data={rewards ?? []}
-        renderItem={({ item }) => <RewardItem item={item} />}
+        renderItem={({ item }) => (
+          <RewardItem item={item} isCollected={checkCollected(item)} />
+        )}
         ItemSeparatorComponent={renderItemSeparator}
         keyExtractor={item => item.id.toString()}
         onEndReached={onEndReached}

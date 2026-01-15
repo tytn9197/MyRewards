@@ -1,6 +1,6 @@
 import { Reward } from '@/services/rtk-query/rewards/rewards.types';
 import { collectReward } from '@/store/rewardsSlice';
-import { useAppDispatch, useAppSelector } from '@/store/store';
+import { useAppDispatch } from '@/store/store';
 import { memo } from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
@@ -13,11 +13,13 @@ export interface RewardItemProps {
    * Reward item data
    */
   item: Reward;
+  /**
+   * check whether this item is collected or not, to disable Collect button
+   */
+  isCollected: boolean;
 }
 
-const RewardItem = ({ item }: RewardItemProps) => {
-  const { collectedRewards } = useAppSelector(state => state.rewards);
-
+const RewardItem = ({ item, isCollected }: RewardItemProps) => {
   const dispatch = useAppDispatch();
 
   const handleItemPress = () => {
@@ -25,10 +27,7 @@ const RewardItem = ({ item }: RewardItemProps) => {
   };
 
   return (
-    <TouchableOpacity
-      onPress={handleItemPress}
-      disabled={!!collectedRewards[item.id]}
-    >
+    <TouchableOpacity onPress={handleItemPress} disabled={!!isCollected}>
       <Text style={styles.name}>{item.name}</Text>
     </TouchableOpacity>
   );
