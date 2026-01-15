@@ -29,13 +29,16 @@ const RewardItem = ({ item, isCollected }: RewardItemProps) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.name}>{item.name}</Text>
+      <Text style={styles.name} testID="RewardName">
+        {item.name}
+      </Text>
       {!!item.description && (
         <Text style={styles.description}>{item.description}</Text>
       )}
       {isCollected !== undefined && (
         <TouchableOpacity
           style={[styles.button, isCollected && styles.disableButton]}
+          testID="CollectButton"
           onPress={handleItemPress}
           disabled={!!isCollected}
         >

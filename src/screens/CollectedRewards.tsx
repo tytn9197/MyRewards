@@ -17,6 +17,7 @@ const CollectedRewards = () => {
     <View style={[styles.container, { paddingTop: top }]}>
       <Text style={styles.title}>CollectedRewards</Text>
       <FlashList
+        testID='CollectedList'
         data={collectedList ?? []}
         renderItem={({ item }) => (
           <RewardItem item={item} isCollected={undefined} />

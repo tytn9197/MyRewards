@@ -63,6 +63,7 @@ const RootNavigator = (): React.JSX.Element => {
         component={HomeScreen}
         options={{
           tabBarIcon: HomeScreenTabIcon,
+          tabBarButtonTestID: "HomeBottomTab",
           title: 'Home',
         }}
       />
@@ -71,6 +72,7 @@ const RootNavigator = (): React.JSX.Element => {
         component={CollectedRewards}
         options={{
           tabBarIcon: CollectedRewardsTabIcon,
+          tabBarButtonTestID: "CollectedBottomTab",
           title: 'Collected',
         }}
       />
