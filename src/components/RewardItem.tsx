@@ -28,7 +28,7 @@ const RewardItem = ({ item, isCollected }: RewardItemProps) => {
 
   return (
     <TouchableOpacity onPress={handleItemPress} disabled={!!isCollected}>
-      <Text style={styles.name}>{item.name}</Text>
+      <Text style={[styles.name, isCollected && {backgroundColor: "yellow"}]}>{item.name}</Text>
     </TouchableOpacity>
   );
 };
@@ -43,7 +43,7 @@ const arePropsEqual = (
   prevProps: Readonly<RewardItemProps>,
   nextProps: Readonly<RewardItemProps>,
 ): boolean => {
-  return prevProps.item.id === nextProps.item.id;
+  return prevProps.item.id === nextProps.item.id && prevProps.isCollected === nextProps.isCollected
 };
 
 export default memo(RewardItem, arePropsEqual);
