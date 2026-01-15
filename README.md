@@ -8,6 +8,8 @@ This is a modern React Native application bootstrapped with [`@react-native-comm
 
 This project is a React Native mobile application that provides list of rewards and list of collected rewards. It's built using the latest React Native 0.83 and follows modern development practices.
 
+Additional time was required to add tests and further polish the code to ensure better quality and stability.
+
 ## Prerequisites
 
 Before you begin, ensure you have the following installed:
@@ -20,6 +22,13 @@ Before you begin, ensure you have the following installed:
 **Recommended tools:**
 - NVM for managing Node.js versions
 - SDKMAN for managing Android SDK versions
+
+**Recommended command:**
+- Run doctor to check your environment
+
+```
+bunx react-native doctor
+```
 
 ## Setup
 
