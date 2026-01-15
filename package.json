@@ -8,6 +8,9 @@
     "lint": "eslint .",
     "start": "bunx react-native start",
     "start:reset": "bunx react-native start --reset-cache",
+    "test:maestro": "maestro test -e MAESTRO_APP_ID=com.myrewards .maestro/flows",
+    "test:maestro:android": "maestro -p=android test -e MAESTRO_APP_ID=com.myrewards .maestro/flows",
+    "test:maestro:ios": "maestro -p=ios test -e MAESTRO_APP_ID=com.myrewards .maestro/flows",
     "test": "jest"
   },
   "dependencies": {
