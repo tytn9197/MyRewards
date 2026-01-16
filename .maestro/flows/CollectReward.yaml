@@ -9,6 +9,8 @@ onFlowStart:
 - tapOn:
     id: CollectedBottomTab
 - assertVisible: CollectedRewards
+- assertNotVisible:
+    id: RewardName
 - tapOn:
     id: HomeBottomTab
 - tapOn:
