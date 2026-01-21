@@ -1,3 +1,4 @@
+import { FLEX1 } from '@/constants/STYLES'
 import RootNavigator from '@/navigators/RootNavigator';
 import { store } from '@/store/store';
 import { NavigationContainer } from '@react-navigation/native';
@@ -22,7 +23,7 @@ function App() {
 function AppContent() {
   return (
     <Provider store={store}>
-      <View style={{ flex: 1 }}>
+      <View style={FLEX1}>
         <NavigationContainer>
           <RootNavigator />
         </NavigationContainer>
