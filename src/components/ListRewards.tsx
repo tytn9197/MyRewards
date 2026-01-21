@@ -30,12 +30,14 @@ export interface ListRewardsProps {
    * onEndReached of Flash list
    */
   onEndReached: FlashListProps<Reward>['onEndReached'];
+  /**
+   * Rewards to display
+   */
+  rewards: Reward[];
 }
 
 const ListRewards = (props: ListRewardsProps) => {
-  const { request, isFetching, onRefresh, onEndReached } = props;
-
-  const { rewards } = useAppSelector(state => state.rewards);
+  const { request, isFetching, onRefresh, onEndReached, rewards } = props;
 
   const { top } = useSafeAreaInsets();
   const { collectedRewards } = useAppSelector(state => state.rewards);
@@ -52,7 +54,7 @@ const ListRewards = (props: ListRewardsProps) => {
   return (
     <View style={[styles.container, { paddingTop: top }]}>
       <FlashList<Reward>
-        data={rewards ?? []}
+        data={rewards}
         renderItem={({ item }) => (
           <RewardItem item={item} isCollected={checkCollected(item)} />
         )}

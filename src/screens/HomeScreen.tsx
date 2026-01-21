@@ -38,6 +38,7 @@ const HomeScreen = () => {
       <Activity mode={!!data && !isLoading && !isError ? 'visible' : 'hidden'}>
         <ListRewards
           request={request}
+          rewards={data?.results ?? []}
           isFetching={isFetching}
           onRefresh={handleRefresh}
           onEndReached={handleEndReached}
