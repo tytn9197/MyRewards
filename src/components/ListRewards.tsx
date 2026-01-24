@@ -3,11 +3,11 @@ import {
   RewardsRequest,
 } from '@/services/rtk-query/rewards/rewards.types';
 import { useAppSelector } from '@/store/store';
-import { FlashList, FlashListProps } from '@shopify/flash-list';
+import { FlashList, FlashListProps, ListRenderItem } from '@shopify/flash-list';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import RewardItem from './RewardItem/RewardItem';
-import { Activity, useCallback } from 'react';
+import { Activity } from 'react';
 
 export interface ListRewardsProps {
   /**
@@ -40,26 +40,24 @@ const ListRewards = (props: ListRewardsProps) => {
   const { request, isFetching, onRefresh, onEndReached, rewards } = props;
 
   const { top } = useSafeAreaInsets();
+
   const { collectedRewards } = useAppSelector(state => state.rewards);
 
   const renderItemSeparator = () => <View style={styles.h20} />;
 
-  const checkCollected = useCallback(
-    (item: Reward): boolean => {
-      return !!collectedRewards[item.id];
-    },
-    [collectedRewards],
+  const renderItem: ListRenderItem<Reward> = ({ item }) => (
+    <RewardItem item={item} isCollected={!!collectedRewards[item.id]} />
   );
+
+  const keyExtractor: FlashListProps<Reward>['keyExtractor'] = item => item.id.toString();
 
   return (
     <View style={[styles.container, { paddingTop: top }]}>
       <FlashList<Reward>
         data={rewards}
-        renderItem={({ item }) => (
-          <RewardItem item={item} isCollected={checkCollected(item)} />
-        )}
+        renderItem={renderItem}
         ItemSeparatorComponent={renderItemSeparator}
-        keyExtractor={item => item.id.toString()}
+        keyExtractor={keyExtractor}
         onEndReached={onEndReached}
         onEndReachedThreshold={0.5}
         onRefresh={onRefresh}
